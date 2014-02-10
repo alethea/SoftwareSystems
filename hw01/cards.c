@@ -1,14 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* Prompts for card name and stores the response in the given buffer
+ * 
+ *  prompt: string prompt to show
+ *  card_name: buffer to store result in (max 2 characters)
+ */
+void get_card_name(char *prompt, char *card_name);
+
 int main()
 {
     char card_name[3];
     int count = 0;
     while (card_name[0] != 'X') {
-        puts("Enter the card_name: ");
-        scanf("%2s", card_name);
         int val = 0;
+        get_card_name("Enter the card_name: ", card_name);
         switch(card_name[0]) {
         case 'K':
         case 'Q':
@@ -35,4 +41,9 @@ int main()
         printf("Current count: %i\n", count);
     }
     return 0;
+}
+
+void get_card_name(char *prompt, char *card_name) {
+    puts(prompt);
+    fgets(card_name, 3, stdin);
 }
