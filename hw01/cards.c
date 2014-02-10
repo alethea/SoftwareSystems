@@ -15,11 +15,19 @@ void get_card_name(char* prompt, char* card_name);
  */
 int name_to_value(char* card_name);
 
+/* Takes a card value and increments the count as needed
+ *
+ * val: card value to use
+ * count: pointer to the count to increment
+ */
+void increment_count(int val, int* count);
+
 int main()
 {
     char card_name[3];
     int count = 0;
     int val;
+
     while (1) {
         get_card_name("Enter the card_name: ", card_name);
         val = name_to_value(card_name);
@@ -27,13 +35,10 @@ int main()
             break;
         } else if (val == 0) {
             puts("I don't understand that value!");
-            continue;
-        } else if ((val > 2) && (val < 7)) {
-            count++;
-        } else if (val == 10) {
-            count--;
+        } else {
+            increment_count(val, &count);
+            printf("Current count: %i\n", count);
         }
-        printf("Current count: %i\n", count);
     }
     return 0;
 }
@@ -63,3 +68,12 @@ int name_to_value(char* card_name) {
     }
     return 0;
 }
+
+void increment_count(int val, int* count) {
+    if ((val > 2) && (val < 7)) {
+        (*count)++;
+    } else if (val == 10) {
+        (*count)--;
+    }
+}
+
