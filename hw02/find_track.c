@@ -35,15 +35,32 @@ void find_track(char search_for[])
     }
 }
 
+// Print a error code from regcomp or regexec
+void print_regex_error(int errcode, const regex_t* preg) {
+    size_t errbuf_size;
+    char *errbuf;
+
+    errbuf_size = regerror(errcode, preg, 0, 0);
+    errbuf = malloc(errbuf_size * sizeof (char));
+    regerror(errcode, preg, errbuf, errbuf_size);
+    puts(errbuf);
+    free(errbuf);
+}
+
 // Finds all tracks that match the given pattern.
 //
 // Prints track number and title.
 void find_track_regex(char pattern[])
 {
     int i;
+    int err;
     regex_t regex;
 
-    regcomp(&regex, pattern, REG_NOSUB);
+    err = regcomp(&regex, pattern, REG_NOSUB);
+    if (err) {
+        print_regex_error(err, &regex);
+        return;
+    }
     for (i = 0; i < NUM_TRACKS; i++) {
         if (!regexec(&regex, tracks[i], 0, 0, 0)) {
             printf("Track %i: '%s'\n", i, tracks[i]);
