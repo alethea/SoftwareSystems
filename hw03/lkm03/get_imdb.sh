@@ -2,6 +2,9 @@
 
 mkdir -p imdb
 cd imdb
-wget -rc -np -nd -l1 -A.list.gz ftp://ftp.sunet.se/pub/tv+movies/imdb/
+for i in actors actresses movies
+do
+  wget -c -np ftp://ftp.sunet.se/pub/tv+movies/imdb/$i.list.gz
+done
 gzip -vdn *.gz
 cd ..
