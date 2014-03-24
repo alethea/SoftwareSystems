@@ -61,7 +61,17 @@ int remove_by_value(Node **head, int val) {
 
 // Reverse the elements of the list without allocating new nodes.
 void reverse(Node **head) {
-    // FILL THIS IN!
+    Node *prev = NULL;
+    Node *curr = *head;
+    Node *next;
+
+    while (curr != NULL) {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    *head = prev;
 }
 
 
