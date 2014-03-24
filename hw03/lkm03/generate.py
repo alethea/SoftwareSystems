@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 import random
 import psycopg2
 
@@ -33,3 +34,26 @@ def test_data(movies, actors, avg_size):
                     random.randint(0, max_size - size)))
 
     return movie_list
+
+
+def create_table(conn):
+    cur = conn.cursor()
+    cur.execute(
+    'CREATE TABLE movies_actors (movie INTEGER, actor INTEGER);')
+
+
+def drop_table(conn):
+    cur = conn.cursor()
+    cur.execute('DROP TABLE movies_actors;')
+
+
+def main(args):
+    conn = connect('private.dsn')
+    if args[0] == 'drop':
+        drop_table(conn)
+    else:
+        create_table(conn)
+
+
+if __name__ == '__main__':
+    main(sys.argv[1:])
