@@ -36,6 +36,22 @@ def test_data(movies, actors, avg_size):
     return movie_list
 
 
+def insert_data(conn, data):
+    movie_id = 0
+    cur = conn.cursor()
+    cur.execute('''
+        PREPARE insert_plan AS 
+        INSERT INTO movies_actors VALUES ($1, $2);
+        ''')
+    for movie in data:
+        for actor in movie:
+            cur.execute('EXECUTE insert_plan (%s, %s);', (movie_id, actor))
+        movie_id += 1
+        progress = 100 * movie_id // len(data)
+        print('Uploading: {}% complete...'.format(progress), end='\r')
+    print('')
+
+
 def create_table(conn):
     cur = conn.cursor()
     cur.execute(
@@ -52,7 +68,12 @@ def main(args):
     if args[0] == 'drop':
         drop_table(conn)
     else:
+        print('Generating dataset...')
+        data = test_data(*(int(arg) for arg in args))
         create_table(conn)
+        insert_data(conn, data)
+    conn.commit()
+    print('Success')
 
 
 if __name__ == '__main__':
