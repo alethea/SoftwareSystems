@@ -9,6 +9,7 @@ def connect(dsn_file):
     with open(dsn_file) as dsn:
         return psycopg2.connect(dsn.read())
 
+
 def test_data(movies, actors, avg_size):
     actor_list = list(range(actors))
     movie_list = []
@@ -17,7 +18,7 @@ def test_data(movies, actors, avg_size):
 
     for _ in range(movies):
         movie_list.append(set())
-        
+
     # Make sure every actor is in at least one movie
     while actor_list:
         for movie in movie_list:
@@ -31,7 +32,7 @@ def test_data(movies, actors, avg_size):
         if size < max_size:
             movie.update(
                 random.sample(range(actors),
-                    random.randint(0, max_size - size)))
+                              random.randint(0, max_size - size)))
 
     return movie_list
 
@@ -40,7 +41,7 @@ def insert_data(conn, data):
     movie_id = 0
     cur = conn.cursor()
     cur.execute('''
-        PREPARE insert_plan AS 
+        PREPARE insert_plan AS
         INSERT INTO movies_actors VALUES ($1, $2);
         ''')
     for movie in data:
@@ -54,8 +55,7 @@ def insert_data(conn, data):
 
 def create_table(conn):
     cur = conn.cursor()
-    cur.execute(
-    'CREATE TABLE movies_actors (movie INTEGER, actor INTEGER);')
+    cur.execute('CREATE TABLE movies_actors (movie INTEGER, actor INTEGER);')
 
 
 def drop_table(conn):
