@@ -146,11 +146,11 @@ double *row_sum(Matrix *A) {
     double *res = malloc(A->rows * sizeof(double));
 
     for (i=0; i<A->rows; i++) {
-	total = 0.0;
-	for (j=0; j<A->cols; j++) {
-	    total += A->data[i][j];
-	}
-	res[i] = total;
+      total = 0.0;
+      for (j=0; j<A->cols; j++) {
+          total += A->data[i][j];
+      }
+      res[i] = total;
     }
     return res;
 }
@@ -168,6 +168,46 @@ double *row_sum(Matrix *A) {
 
    Feel free to use row_sum().
 */
+int is_magic_square(Matrix *A) {
+    double ref = 0.0;
+    double diag = 0.0;
+    double row, col;
+    int i, j, size;
+
+    // Make sure it's a square
+    if (A->rows != A->cols) {
+        return 0;
+    }
+    size = A->rows;
+
+    // Get reference value from first diagonal
+    for (i = 0; i < size; i++) {
+        ref += A->data[i][i];
+    }
+
+    // Check second diagonal
+    for (i = size - 1; i >= 0; i--) {
+        diag += A->data[i][i];
+    }
+    if (diag != ref) {
+        return 0;
+    }
+
+    // Check rows
+    for (i = 0; i < size; i++) {
+        row = 0.0;
+        col = 0.0;
+        for (j = 0; j < size; j++) {
+            row += A->data[i][j];
+            col += A->data[j][i];
+        }
+        if (row != ref || col != ref) {
+            return 0;
+        }
+    }
+    
+    return 1;
+}
 
 
 int main() {
@@ -202,6 +242,12 @@ int main() {
 	printf("row %d\t%lf\n", i, sums[i]);
     }
     // should print 6, 22, 38
+
+
+    Matrix *E = make_matrix(3, 3);
+    increment_matrix(E, 1);
+    printf("D is a magic square? %d\n", is_magic_square(D));
+    printf("E is a magic square? %d\n", is_magic_square(E));
 
     return 0;
 }
