@@ -1,7 +1,15 @@
-CC=gcc
-PKGS=glib-2.0
-CFLAGS=
-PKG_CONFIG!=pkg-config --cflags --libs $(PKGS)
+CC = gcc
+PKGS = glib-2.0
+CFLAGS = -Wall -Wpedantic
+INCLUDES != pkg-config --cflags $(PKGS)
+LFLAGS != pkg-config --libs $(PKGS)
+
+all: hello
 
 hello: hello.c
-	$(CC) hello.c -o hello $(CFLAGS) $(PKG_CONFIG)
+	$(CC) $< -o $@ $(CFLAGS) $(INCLUDES) $(LFLAGS)
+
+.PHONY: clean
+
+clean:
+	rm -f hello *.o
