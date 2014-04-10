@@ -4,12 +4,25 @@ CFLAGS = -Wall -Wpedantic
 INCLUDES != pkg-config --cflags $(PKGS)
 LFLAGS != pkg-config --libs $(PKGS)
 
-all: hello
+SRCS = main.c
+OBJS = $(SRCS:.c=.o)
+DEPS = $(SRCS:.c=.d)
+
+all: hello termfreq
+
+termfreq: $(OBJS)
+	$(CC) $^ -o $@ $(CFLAGS) $(INCLUDES) $(LFLAGS)
 
 hello: hello.c
 	$(CC) $< -o $@ $(CFLAGS) $(INCLUDES) $(LFLAGS)
 
-.PHONY: clean
+-include $(DEPS)
+
+.c.o: $(DEPS)
+	$(CC) -c $< -o $@ $(CFLAGS) $(INCLUDES)
+	$(CC) -MM $< $(CFLAGS) $(INCLUDES) -o $*.d
+
+.PHONY: clean 
 
 clean:
-	rm -f hello *.o
+	rm -f hello *.o *.d
