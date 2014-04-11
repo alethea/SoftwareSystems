@@ -8,9 +8,9 @@ SRCS = main.c histogram.c
 OBJS = $(SRCS:.c=.o)
 DEPS = $(SRCS:.c=.d)
 
-all: hello termfreq
+all: hello wordfreq
 
-termfreq: $(OBJS)
+wordfreq: $(OBJS)
 	$(CC) $^ -o $@ $(CFLAGS) $(INCLUDES) $(LFLAGS)
 
 hello: hello.c
@@ -25,4 +25,4 @@ hello: hello.c
 .PHONY: clean 
 
 clean:
-	rm -f hello *.o *.d
+	rm -f hello wordfreq *.o *.d
