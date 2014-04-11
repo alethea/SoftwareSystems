@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wpedantic
 INCLUDES != pkg-config --cflags $(PKGS)
 LFLAGS != pkg-config --libs $(PKGS)
 
-SRCS = main.c
+SRCS = main.c freqtable.c
 OBJS = $(SRCS:.c=.o)
 DEPS = $(SRCS:.c=.d)
 
@@ -18,7 +18,7 @@ hello: hello.c
 
 -include $(DEPS)
 
-.c.o: $(DEPS)
+.c.o:
 	$(CC) -c $< -o $@ $(CFLAGS) $(INCLUDES)
 	$(CC) -MM $< $(CFLAGS) $(INCLUDES) -o $*.d
 
