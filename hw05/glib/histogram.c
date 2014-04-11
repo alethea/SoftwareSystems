@@ -36,7 +36,10 @@ void histogram_foreach_wrapper(gpointer term,
 void histogram_foreach(Histogram *histogram,
                        HistogramFunc func,
                        gpointer user_data) {
-    HistogramFuncUserData data = {.func = func, .user_data = user_data};
+    HistogramFuncUserData data;
+    
+    data.func = func; 
+    data.user_data = user_data;
     g_hash_table_foreach(histogram->hash_table, histogram_foreach_wrapper, &data);
 }
 
