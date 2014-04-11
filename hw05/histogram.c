@@ -11,21 +11,40 @@ Histogram *histogram_new() {
 }
 
 void histogram_count(Histogram *histogram, gchar* term) {
-    gint32 count;
+    guint32 count;
     
     count = histogram_lookup(histogram, term);
     if (!count) {
         term = g_string_chunk_insert(histogram->string_chunk, term);
     }
     count++;
-    g_hash_table_insert(histogram->hash_table, term, GINT_TO_POINTER(count));
+    g_hash_table_insert(histogram->hash_table, term, GUINT_TO_POINTER(count));
 }
 
-gint32 histogram_lookup(Histogram *histogram, gchar *term) {
+typedef struct {
+    HistogramFunc func;
+    gpointer user_data;
+} HistogramFuncUserData;
+
+void histogram_foreach_wrapper(gpointer term,
+                               gpointer count,
+                               gpointer user_data) {
+    HistogramFuncUserData *data = user_data;
+    data->func(term, GPOINTER_TO_UINT(count), data->user_data);
+}
+
+void histogram_foreach(Histogram *histogram,
+                       HistogramFunc func,
+                       gpointer user_data) {
+    HistogramFuncUserData data = {.func = func, .user_data = user_data};
+    g_hash_table_foreach(histogram->hash_table, histogram_foreach_wrapper, &data);
+}
+
+guint32 histogram_lookup(Histogram *histogram, gchar *term) {
     gpointer count_ptr;
 
     count_ptr = g_hash_table_lookup(histogram->hash_table, term);
-    return GPOINTER_TO_INT(count_ptr);
+    return GPOINTER_TO_UINT(count_ptr);
 }
 
 void histogram_free(Histogram *histogram) {
