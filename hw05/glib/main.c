@@ -10,8 +10,11 @@ int main() {
     Histogram *histogram;
 
     histogram = histogram_new();
-    g_printf("%d\n", histogram_lookup(histogram, "test"));
-    histogram_count(histogram, "test");
+    g_printf("%d\n", histogram_lookup(histogram, "test1"));
+    histogram_count(histogram, "test1");
+    histogram_count(histogram, "test2");
+    histogram_count(histogram, "test1");
+    histogram_sort(histogram);
     histogram_foreach(histogram, histogram_print, NULL);
     g_printf("%d\n", histogram_total(histogram));
     histogram_free(histogram);

@@ -6,6 +6,7 @@ typedef struct {
     GStringChunk *terms;
     GPtrArray *nodes;
     guint64 total;
+    gboolean dirty;
 } Histogram;
 
 typedef struct {
@@ -20,6 +21,8 @@ Histogram *histogram_new();
 void histogram_count(Histogram *histogram, gchar* term);
 
 guint32 histogram_lookup(Histogram *histogram, gchar* term);
+
+void histogram_sort(Histogram *histogram);
 
 void histogram_foreach(Histogram *histogram,
                        HistogramFunc func,

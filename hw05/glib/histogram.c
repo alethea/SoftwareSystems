@@ -12,6 +12,8 @@ Histogram *histogram_new() {
     histogram->table = g_hash_table_new(g_str_hash, g_str_equal);
     histogram->terms = g_string_chunk_new(1024);
     histogram->nodes = g_ptr_array_new_with_free_func(histogram_node_free);
+    histogram->total = 0;
+    histogram->dirty = FALSE;
     
     return histogram;
 }
@@ -30,6 +32,23 @@ void histogram_count(Histogram *histogram, gchar* term) {
         node->count++;
     }
     histogram->total++;
+    histogram->dirty = TRUE;
+}
+
+gint histogram_compare_func(gconstpointer a, gconstpointer b) {
+    const HistogramNode *node_a;
+    const HistogramNode *node_b;
+
+    node_a = a;
+    node_b = b;
+    return node_a->count - node_b->count;
+}
+
+void histogram_sort(Histogram *histogram) {
+    if (histogram->dirty) {
+        g_ptr_array_sort(histogram->nodes, histogram_compare_func);
+        histogram->dirty = FALSE;
+    }
 }
 
 typedef struct {
