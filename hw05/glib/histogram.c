@@ -72,8 +72,8 @@ guint32 histogram_total(Histogram *histogram) {
 }
 
 void histogram_free(Histogram *histogram) {
-    g_hash_table_destroy(histogram->table);
     g_string_chunk_free(histogram->terms);
     g_ptr_array_free(histogram->nodes, TRUE);
+    g_hash_table_destroy(histogram->table);
     g_slice_free(Histogram, histogram);
 }
