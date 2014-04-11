@@ -29,6 +29,7 @@ void histogram_count(Histogram *histogram, gchar* term) {
     } else {
         node->count++;
     }
+    histogram->total++;
 }
 
 typedef struct {
@@ -64,6 +65,10 @@ guint32 histogram_lookup(Histogram *histogram, gchar *term) {
     } else {
         return 0;
     }
+}
+
+guint32 histogram_total(Histogram *histogram) {
+    return histogram->total;
 }
 
 void histogram_free(Histogram *histogram) {
