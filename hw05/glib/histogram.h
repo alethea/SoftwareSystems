@@ -2,9 +2,15 @@
 #define _HISTOGRAM_H_
 
 typedef struct {
-    GHashTable *hash_table;
-    GStringChunk *string_chunk;
+    GHashTable *table;
+    GStringChunk *terms;
+    GPtrArray *nodes;
 } Histogram;
+
+typedef struct {
+    guint32 count;
+    gchar *term;
+} HistogramNode;
 
 typedef void (*HistogramFunc) (gchar* term, guint32 count, gpointer user_data);
 
