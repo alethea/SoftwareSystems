@@ -7,7 +7,7 @@ typedef struct {
     GHashTable *table;
     GStringChunk *terms;
     GPtrArray *nodes;
-    guint64 total;
+    guint32 total;
     gboolean dirty;
 } Histogram;
 
