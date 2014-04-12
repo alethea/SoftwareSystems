@@ -10,6 +10,8 @@ typedef struct {
 
 Parser *parser_new(gchar *filename, GError **error);
 
+gchar *parser_read_word(Parser *parser, GError **error);
+
 void parser_free(Parser *parser);
 
 #endif
