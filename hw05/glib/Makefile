@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wpedantic
 INCLUDES != pkg-config --cflags $(PKGS)
 LFLAGS != pkg-config --libs $(PKGS)
 
-SRCS = main.c histogram.c
+SRCS = main.c histogram.c parser.c
 OBJS = $(SRCS:.c=.o)
 DEPS = $(SRCS:.c=.d)
 

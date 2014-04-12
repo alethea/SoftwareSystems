@@ -1,6 +1,8 @@
 #ifndef _WORDFREQ_HISTOGRAM_H_
 #define _WORDFREQ_HISTOGRAM_H_
 
+#include <glib.h>
+
 typedef struct {
     GHashTable *table;
     GStringChunk *terms;
