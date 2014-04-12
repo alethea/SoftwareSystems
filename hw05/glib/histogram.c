@@ -35,18 +35,13 @@ void histogram_count(Histogram *histogram, gchar* term) {
     histogram->dirty = TRUE;
 }
 
-gint histogram_compare_func(gconstpointer a, gconstpointer b) {
-    const HistogramNode *node_a;
-    const HistogramNode *node_b;
-
-    node_a = a;
-    node_b = b;
-    return node_a->count - node_b->count;
+gint histogram_compare_func(HistogramNode **a, HistogramNode **b) {
+    return (**b).count - (**a).count;
 }
 
 void histogram_sort(Histogram *histogram) {
     if (histogram->dirty) {
-        g_ptr_array_sort(histogram->nodes, histogram_compare_func);
+        g_ptr_array_sort(histogram->nodes, (GCompareFunc) histogram_compare_func);
         histogram->dirty = FALSE;
     }
 }
@@ -75,7 +70,7 @@ void histogram_foreach(Histogram *histogram,
     g_ptr_array_foreach(histogram->nodes, histogram_foreach_wrapper, &data);
 }
 
-guint32 histogram_lookup(Histogram *histogram, gchar *term) {
+gint32 histogram_lookup(Histogram *histogram, gchar *term) {
     HistogramNode *node;
 
     node = g_hash_table_lookup(histogram->table, term);
