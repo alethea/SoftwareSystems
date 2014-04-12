@@ -9,7 +9,7 @@ int main() {
     gchar *word;
 
     error = NULL;
-    parser = parser_new("test.txt", &error);
+    parser = parser_new(WORDFREQ_EBOOK, &error);
     while (TRUE) {
         word = parser_read_word(parser, &error);
         if (word == NULL) {

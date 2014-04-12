@@ -2,3 +2,4 @@ hello
 wordfreq
 *.o
 *.d
+*.txt
