@@ -1,5 +1,5 @@
-#ifndef _HISTOGRAM_H_
-#define _HISTOGRAM_H_
+#ifndef _WORDFREQ_HISTOGRAM_H_
+#define _WORDFREQ_HISTOGRAM_H_
 
 typedef struct {
     GHashTable *table;
