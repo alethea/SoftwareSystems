@@ -32,13 +32,12 @@ gchar *parser_read_word(Parser *parser, GError **error) {
     } while (parser_skip(c));
 
     while (!parser_skip(c)) {
-        switch (status) {
-            case G_IO_STATUS_NORMAL:
-            case G_IO_STATUS_EOF:
-                g_string_append_unichar(parser->buf, g_unichar_tolower(c));
-                break;
-            default:
-                return NULL;
+        if (status == G_IO_STATUS_NORMAL) {
+            g_string_append_unichar(parser->buf, g_unichar_tolower(c));
+        } else if (status == G_IO_STATUS_EOF) {
+            break;
+        } else {
+            return NULL;
         }
         status = g_io_channel_read_unichar(parser->channel, &c, error);
     }
