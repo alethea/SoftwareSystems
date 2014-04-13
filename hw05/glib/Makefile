@@ -27,9 +27,11 @@ hello: hello.c
 
 .c.o:
 	$(CC) -c $< -o $@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS)
-	$(CC) -MM $< $(CFLAGS) $(INCLUDES) -o $*.d
 
-.PHONY: clean 
+%.d: %.c
+	$(CC) -MM $< -MF $@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS)
+
+.PHONY: clean
 
 clean:
 	rm -f hello wordfreq $(EBOOK) *.o *.d
