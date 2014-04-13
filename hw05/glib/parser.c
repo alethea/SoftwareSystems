@@ -16,7 +16,10 @@ Parser *parser_new(gchar *filename, GError **error) {
 }
 
 gboolean parser_skip(gunichar c) {
-    return g_unichar_isspace(c) || g_unichar_ispunct(c) || g_unichar_isdigit(c);
+    return g_unichar_isspace(c) ||
+           g_unichar_ispunct(c) ||
+           g_unichar_isdigit(c) ||
+           g_unichar_iscntrl(c);
 }
 
 gchar *parser_read_word(Parser *parser, GError **error) {
