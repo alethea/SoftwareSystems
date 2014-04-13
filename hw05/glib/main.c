@@ -15,17 +15,27 @@ int main() {
 
     error = NULL;
     parser = parser_new(WORDFREQ_EBOOK, &error);
+    if (error != NULL) {
+        g_critical("%s: %s", error->message, WORDFREQ_EBOOK);
+        g_error_free(error);
+        return -1;
+    }
     histogram = histogram_new();
 
     while (TRUE) {
         word = parser_read_word(parser, &error);
-        if (word == NULL) {
+        if (word == NULL || error != NULL) {
             break;
         }
         histogram_count(histogram, word);
     }
-    histogram_sort(histogram);
-    histogram_foreach(histogram, histogram_print, NULL);
+    if (error != NULL) {
+        g_critical("%s: %s", error->message, WORDFREQ_EBOOK);
+        g_error_free(error);
+    } else {
+        histogram_sort(histogram);
+        histogram_foreach(histogram, histogram_print, NULL);
+    }
 
     parser_free(parser);
     histogram_free(histogram);
