@@ -15,13 +15,6 @@ Parser *parser_new(gchar *filename, GError **error) {
     return parser;
 }
 
-gboolean parser_skip(gunichar c) {
-    return g_unichar_isspace(c) ||
-           g_unichar_ispunct(c) ||
-           g_unichar_isdigit(c) ||
-           g_unichar_iscntrl(c);
-}
-
 gchar *parser_read_word(Parser *parser, GError **error) {
     gunichar c;
     GIOStatus status;
@@ -32,9 +25,9 @@ gchar *parser_read_word(Parser *parser, GError **error) {
         if (status != G_IO_STATUS_NORMAL) {
             return NULL;
         }
-    } while (parser_skip(c));
+    } while (!g_unichar_isalpha(c));
 
-    while (!parser_skip(c)) {
+    do {
         if (status == G_IO_STATUS_NORMAL) {
             g_string_append_unichar(parser->buf, g_unichar_tolower(c));
         } else if (status == G_IO_STATUS_EOF) {
@@ -43,7 +36,7 @@ gchar *parser_read_word(Parser *parser, GError **error) {
             return NULL;
         }
         status = g_io_channel_read_unichar(parser->channel, &c, error);
-    }
+    } while (g_unichar_isalpha(c));
 
     return parser->buf->str;
 }
