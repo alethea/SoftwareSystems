@@ -189,8 +189,12 @@ typedef struct node {
 /* Makes a Node. */
 Node *make_node(Hashable *key, Value *value, Node *next)
 {
-    // FIX ME!
-    return NULL;
+    Node *n = (Node *) malloc (sizeof (Node));
+
+    n->key = key;
+    n->value = value;
+    n->next = next;
+    return n;
 }
 
 
