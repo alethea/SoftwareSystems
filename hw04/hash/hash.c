@@ -133,24 +133,25 @@ int hash_hashable(Hashable *hashable)
 /* Compares integers. */
 int equal_int (void *ip, void *jp)
 {
-    // FIX ME!
-    return 0;
+    return *((int *) ip) == *((int *) jp);
 }
 
 
 /* Compares strings. */
 int equal_string (void *s1, void *s2)
 {
-    // FIX ME!
-    return 0;
+    return strcmp((const char *) s1, (const char *) s2);
 }
 
 
 /* Compares Hashables. */
 int equal_hashable(Hashable *h1, Hashable *h2)
 {
-    // FIX ME!
-    return 0;
+    if (h1->equal == h2->equal) {
+        return h1->equal(h1->key, h2->key);
+    } else {
+        return 0;
+    }
 }
 
 
