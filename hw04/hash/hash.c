@@ -140,7 +140,7 @@ int equal_int (void *ip, void *jp)
 /* Compares strings. */
 int equal_string (void *s1, void *s2)
 {
-    return strcmp((const char *) s1, (const char *) s2);
+    return !strcmp((const char *) s1, (const char *) s2);
 }
 
 
