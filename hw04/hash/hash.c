@@ -231,7 +231,12 @@ Node *prepend(Hashable *key, Value *value, Node *rest)
 /* Looks up a key and returns the corresponding value, or NULL */
 Value *list_lookup(Node *list, Hashable *key)
 {
-    // FIX ME!
+    while (list != NULL) {
+        if (equal_hashable(list->key, key)) {
+            return list->value;
+        }
+        list = list->next;
+    }
     return NULL;
 }
 
