@@ -212,8 +212,8 @@ void print_node(Node *node)
 void print_list(Node *node)
 {
     while (node != NULL) {
-      print_node(node);
-      node = node->next;
+        print_node(node);
+        node = node->next;
     }
 }
 
