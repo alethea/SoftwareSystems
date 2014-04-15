@@ -210,7 +210,10 @@ void print_node(Node *node)
 /* Prints all the Nodes in a list. */
 void print_list(Node *node)
 {
-    // FIX ME!
+    while (node != NULL) {
+      print_node(node);
+      node = node->next;
+    }
 }
 
 
