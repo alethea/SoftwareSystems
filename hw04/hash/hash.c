@@ -184,7 +184,6 @@ Hashable *make_hashable_string (char *s)
 typedef struct node {
     Hashable *key;
     Value *value;
-    int hash;
     struct node *next;
 } Node;
 
@@ -196,7 +195,6 @@ Node *make_node(Hashable *key, Value *value, Node *next)
 
     n->key = key;
     n->value = value;
-    n->hash = hash_hashable(key);
     n->next = next;
     return n;
 }
@@ -234,9 +232,8 @@ Node *prepend(Hashable *key, Value *value, Node *rest)
 /* Looks up a key and returns the corresponding value, or NULL */
 Value *list_lookup(Node *list, Hashable *key)
 {
-    int hash = hash_hashable(key);
     while (list != NULL) {
-        if (hash == list->hash) {
+        if (equal_hashable(list->key, key)) {
             return list->value;
         }
         list = list->next;
