@@ -8,6 +8,7 @@ License: Creative Commons Attribution-ShareAlike 3.0
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 
 // VALUE: represents a value in a key-value pair
@@ -272,6 +273,14 @@ void print_map(Map *map)
     }
 }
 
+/* Finds which list a key is in */
+int map_index(Map *map, Hashable *key) {
+    unsigned int hash, step;
+
+    hash = (unsigned int) hash_hashable(key);
+    step = UINT_MAX / map->n;
+    return (int) (hash / step);
+}
 
 /* Adds a key-value pair to a map. */
 void map_add(Map *map, Hashable *key, Value *value)
