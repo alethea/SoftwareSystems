@@ -285,15 +285,16 @@ int map_index(Map *map, Hashable *key) {
 /* Adds a key-value pair to a map. */
 void map_add(Map *map, Hashable *key, Value *value)
 {
-    // FIX ME!
+    int i = map_index(map, key);
+
+    map->lists[i] = prepend(key, value, map->lists[i]);
 }
 
 
 /* Looks up a key and returns the corresponding value, or NULL. */
 Value *map_lookup(Map *map, Hashable *key)
 {
-    // FIX ME!
-    return NULL;
+    return list_lookup(map->lists[map_index(map, key)], key);
 }
 
 
